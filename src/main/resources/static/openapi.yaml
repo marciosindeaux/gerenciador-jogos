@@ -1,0 +1,60 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: Apli Gerenciadora de Jogos
+  description: Um projeto Simples para cadastro de jogos que estou jogando no momento, ou que ja foram jogados.
+  contact:
+    name: Marcio A. F. Sindeaux
+    email: sindeaux@mailinator.com
+servers:
+  - url: http://localhost:5000/sample
+    description: Local Server
+components:
+  schemas:
+    GenericError:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        message:
+          type: string
+    PlataformaCadastro:
+      type: object
+      description: Objeto para cadastro de plataforma de compra de jogos
+      properties:
+        id:
+          type: integer
+          format: int32
+        nome:
+          maxLength: 100
+          type: string
+      required:
+        - nome
+  responses:
+    GenericError:
+      description: Objeto de erro
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/GenericError'
+paths:
+  /plataforma:
+    post:
+      operationId: cadastroPlataforma
+      summary: Cadastro Plataforma
+      description: End-point para cadastro de plaraforma de jogo
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PlataformaCadastro'
+      responses:
+        default:
+          description: Ocorreu um erro, tente novamente mais tarde
+        '500':
+          description: Ocorreu um erro ao realizar o cadastro da plataforma na base de dados
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericError'
