@@ -25,6 +25,22 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>com.tngtech.archunit</groupId>
+			<artifactId>archunit-junit5</artifactId>
+			<version>0.20.1</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.openapitools</groupId>
+			<artifactId>jackson-databind-nullable</artifactId>
+			<version>0.2.4</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springdoc</groupId>
+			<artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+			<version>2.0.2</version>
+		</dependency>
 
 		<dependency>
 			<groupId>com.h2database</groupId>
@@ -43,6 +59,33 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>org.openapitools</groupId>
+				<artifactId>openapi-generator-maven-plugin</artifactId>
+				<version>6.2.1</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>generate</goal>
+						</goals>
+						<configuration>
+							<inputSpec>${project.basedir}/src/main/resources/static/openapi.yaml</inputSpec>
+							<generatorName>spring</generatorName>
+							<apiPackage>com.sindeaux.jogos.controller.openapi.api</apiPackage>
+							<modelPackage>com.sindeaux.jogos.controller.openapi.model</modelPackage>
+							<skipValidateSpec>false</skipValidateSpec>
+							<generateAliasAsModel>false</generateAliasAsModel>
+							<enablePostProcessFile>false</enablePostProcessFile>
+							<supportingFilesToGenerate>ApiUtil.java</supportingFilesToGenerate>
+							<output>${project.build.directory}/generated-sources</output>
+							<configOptions>
+								<interfaceOnly>true</interfaceOnly>
+								<useSpringBoot3>true</useSpringBoot3>
+							</configOptions>
+						</configuration>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 	</build>
