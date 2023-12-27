@@ -11,6 +11,51 @@ servers:
     description: Local Server
 components:
   schemas:
+    JogoCadastro:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+        nome:
+          maxLength: 100
+          type: string
+        dataLancamento:
+          type: string
+          format: date
+        dataInicio:
+          type: string
+          format: date
+        dataConclusao:
+          type: string
+          format: date
+        sinopse:
+          type: string
+        opiniao:
+          type: string
+        idPlataforma:
+          type: integer
+          format: int32
+        idDesenvolvedora:
+          type: integer
+          format: int32
+      required:
+        - nome
+        - dataLancamento
+        - sinopse
+        - idPlataforma
+        - idDesenvolvedora
+    DesenvolvedoraCadastro:
+      type: object
+      properties:
+        idDesenvolvedora:
+          type: integer
+          format: int32
+        nome:
+          maxLength: 100
+          type: string
+      required:
+        - nome
     GenericError:
       type: object
       properties:
@@ -19,6 +64,14 @@ components:
           format: int32
         message:
           type: string
+    ResponsePlataformas:
+      type: object
+      properties:
+        listaPlataformas:
+          type: array
+          description: lista de plataformas cadastradas
+          items:
+            $ref: '#/components/schemas/PlataformaCadastro'
     PlataformaCadastro:
       type: object
       description: Objeto para cadastro de plataforma de compra de jogos
@@ -38,6 +91,12 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/GenericError'
+    ResponsePlataformas:
+      description: Objeto de resposta de lista de plataformas
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ResponsePlataformas'
 paths:
   /plataforma:
     post:
@@ -54,6 +113,63 @@ paths:
           description: Ocorreu um erro, tente novamente mais tarde
         '500':
           description: Ocorreu um erro ao realizar o cadastro da plataforma na base de dados
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericError'
+    get:
+      operationId: buscarPlataformas
+      summary: Buscar todas as Plataformas
+      description: End-point para busca de todas as plataformas
+      responses:
+        default:
+          description: Ocorreu um erro, tente novamente mais tarde
+        '200':
+          description: Busca bem sucedida
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponsePlataformas'
+  /plataforma/{id}:
+    parameters:
+      - name: id
+        in: path
+        description: id da plataforma
+        required: true
+        schema:
+          type: integer
+    put:
+      operationId: editarPlataforma
+      summary: Editar Plataforma Cadastrada
+      description: End-point para editar nome da plataforma que foi cadastrada
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PlataformaCadastro'
+      responses:
+        default:
+          description: Ocorreu um erro, tente novamente mais tarde
+        '200':
+          description: Nome editado com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PlataformaCadastro'
+  /desenvolvedor:
+    post:
+      operationId: cadastroDesenvolvedor
+      summary: Cadastro Desenvolvedor
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DesenvolvedoraCadastro'
+      responses:
+        default:
+          description: Ocorreu um erro ao cadastrar desenvolvedor
+        '500':
+          description: Ocorreu um erro ao cadastrar Desenvolvedora na base de dado s
           content:
             application/json:
               schema:

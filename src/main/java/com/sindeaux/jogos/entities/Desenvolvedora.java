@@ -1,21 +1,22 @@
 package com.sindeaux.jogos.entities;
 
-
 import jakarta.persistence.*;
 
 import java.util.List;
 
 @Entity
-@Table(name = "TB_PLATAFORMA")
-public class Plataforma {
+@Table(name = "TB_DESENVOLVEDORA")
+public class Desenvolvedora {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ID_PLATAFORMA")
+    @Column(name = "ID_DESENVOLVEDORA")
     private Integer id;
-    @Column(name = "NOME_PLATAFORMA")
+
+    @Column(name = "NOME_DESENVOLVEDORA")
     private String nome;
-    @OneToMany(mappedBy = "plataforma", fetch = FetchType.LAZY)
+
+    @OneToMany(mappedBy = "desenvolvedora", fetch = FetchType.LAZY)
     private List<Jogo> jogos;
 
     public List<Jogo> getJogos() {

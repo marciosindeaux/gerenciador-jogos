@@ -11,4 +11,11 @@ public class PlataformaCadastroMapper {
         plataforma.setNome(plataformaCadastro.getNome());
         return plataforma;
     }
+
+    public static PlataformaCadastro platafomaTo(Plataforma plataforma){
+        PlataformaCadastro plataformaCadastro = new PlataformaCadastro();
+        plataformaCadastro.setId(plataforma.getId());
+        plataformaCadastro.setNome(plataforma.getNome());
+        return plataformaCadastro;
+    }
 }
