@@ -33,7 +33,7 @@ components:
           type: string
         opiniao:
           type: string
-        idPlataforma:
+        idLoja:
           type: integer
           format: int32
         idDesenvolvedora:
@@ -43,8 +43,16 @@ components:
         - nome
         - dataLancamento
         - sinopse
-        - idPlataforma
+        - idLoja
         - idDesenvolvedora
+    ResponseDevs:
+      type: object
+      properties:
+        listaDevs:
+          type: array
+          description: lista de Empresas desenvolvedoras
+          items:
+            $ref: '#/components/schemas/DesenvolvedoraCadastro'
     DesenvolvedoraCadastro:
       type: object
       properties:
@@ -64,17 +72,17 @@ components:
           format: int32
         message:
           type: string
-    ResponsePlataformas:
+    ResponseLojas:
       type: object
       properties:
-        listaPlataformas:
+        listaLojas:
           type: array
-          description: lista de plataformas cadastradas
+          description: lista de lojas cadastradas
           items:
-            $ref: '#/components/schemas/PlataformaCadastro'
-    PlataformaCadastro:
+            $ref: '#/components/schemas/LojaCadastro'
+    LojaCadastro:
       type: object
-      description: Objeto para cadastro de plataforma de compra de jogos
+      description: Objeto para cadastro de loja de compra de jogos
       properties:
         id:
           type: integer
@@ -91,36 +99,36 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/GenericError'
-    ResponsePlataformas:
-      description: Objeto de resposta de lista de plataformas
+    ResponseLojas:
+      description: Objeto de resposta de lista de lojas
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/ResponsePlataformas'
+            $ref: '#/components/schemas/ResponseLojas'
 paths:
-  /plataforma:
+  /loja:
     post:
-      operationId: cadastroPlataforma
-      summary: Cadastro Plataforma
+      operationId: cadastroLoja
+      summary: Cadastro Loja
       description: End-point para cadastro de plaraforma de jogo
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/PlataformaCadastro'
+              $ref: '#/components/schemas/LojaCadastro'
       responses:
         default:
           description: Ocorreu um erro, tente novamente mais tarde
         '500':
-          description: Ocorreu um erro ao realizar o cadastro da plataforma na base de dados
+          description: Ocorreu um erro ao realizar o cadastro da loja na base de dados
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/GenericError'
     get:
-      operationId: buscarPlataformas
-      summary: Buscar todas as Plataformas
-      description: End-point para busca de todas as plataformas
+      operationId: buscarLojas
+      summary: Buscar todas as Lojas
+      description: End-point para busca de todas as lojas
       responses:
         default:
           description: Ocorreu um erro, tente novamente mais tarde
@@ -129,24 +137,24 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponsePlataformas'
-  /plataforma/{id}:
+                $ref: '#/components/schemas/ResponseLojas'
+  /loja/{id}:
     parameters:
       - name: id
         in: path
-        description: id da plataforma
+        description: id da loja
         required: true
         schema:
           type: integer
     put:
-      operationId: editarPlataforma
-      summary: Editar Plataforma Cadastrada
-      description: End-point para editar nome da plataforma que foi cadastrada
+      operationId: editarLoja
+      summary: Editar loja Cadastrada
+      description: End-point para editar nome da loja que foi cadastrada
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/PlataformaCadastro'
+              $ref: '#/components/schemas/LojaCadastro'
       responses:
         default:
           description: Ocorreu um erro, tente novamente mais tarde
@@ -155,7 +163,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/PlataformaCadastro'
+                $ref: '#/components/schemas/LojaCadastro'
   /desenvolvedor:
     post:
       operationId: cadastroDesenvolvedor
@@ -174,3 +182,42 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/GenericError'
+    get:
+      operationId: buscarDevs
+      summary: Deve buscar todos os Devs
+      description: End-point para buscar as empresas desenvolvedoras do jogo
+      responses:
+        default:
+          description: Ocorreu um erro, tente novamente mais tarde
+        '200':
+          description: Busca bem sucedida
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseDevs'
+  /desenvolvedor/{id}:
+    parameters:
+      - name: id
+        in: path
+        description: id da empresa desenvolvedora
+        required: true
+        schema:
+          type: integer
+    put:
+      operationId: editarDev
+      summary: Editar desenvolvedor
+      description: End-point para editar nome de desenvolvedor cadastrado
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DesenvolvedoraCadastro'
+      responses:
+        default:
+          description: Ocorreu um erro, tente novamente mais tarde
+        '200':
+          description: nome editado com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DesenvolvedoraCadastro'
