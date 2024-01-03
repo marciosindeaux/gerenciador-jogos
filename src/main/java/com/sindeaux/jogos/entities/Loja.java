@@ -6,16 +6,16 @@ import jakarta.persistence.*;
 import java.util.List;
 
 @Entity
-@Table(name = "TB_PLATAFORMA")
-public class Plataforma {
+@Table(name = "TB_LOJA")
+public class Loja {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ID_PLATAFORMA")
+    @Column(name = "ID_LOJA")
     private Integer id;
-    @Column(name = "NOME_PLATAFORMA")
+    @Column(name = "NOME_LOJA")
     private String nome;
-    @OneToMany(mappedBy = "plataforma", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "loja", fetch = FetchType.LAZY)
     private List<Jogo> jogos;
 
     public List<Jogo> getJogos() {

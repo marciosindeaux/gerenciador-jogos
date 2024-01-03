@@ -11,4 +11,11 @@ public class DesenvolvedorCadastroMapper {
         desenvolvedora.setNome( desenvolvedoraCadastro.getNome());
         return desenvolvedora;
     }
+
+    public static DesenvolvedoraCadastro desenvolvedoraTo(Desenvolvedora desenvolvedora){
+        DesenvolvedoraCadastro desenvolvedoraCadastro = new DesenvolvedoraCadastro();
+        desenvolvedoraCadastro.setIdDesenvolvedora(desenvolvedora.getId());
+        desenvolvedoraCadastro.setNome(desenvolvedora.getNome());
+        return desenvolvedoraCadastro;
+    }
 }

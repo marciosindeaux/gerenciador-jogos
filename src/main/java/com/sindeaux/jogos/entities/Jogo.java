@@ -27,8 +27,8 @@ public class Jogo {
     @Column(name = "NOTA_PESSOAL")
     private Double nota;
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn( name = "ID_PLATAFORMA")
-    private Plataforma plataforma;
+    @JoinColumn( name = "ID_LOJA")
+    private Loja loja;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn( name = "ID_DESENVOLVEDORA")
     private Desenvolvedora desenvolvedora;
@@ -97,12 +97,12 @@ public class Jogo {
         this.nota = nota;
     }
 
-    public Plataforma getPlataforma() {
-        return plataforma;
+    public Loja getLoja() {
+        return loja;
     }
 
-    public void setPlataforma(Plataforma plataforma) {
-        this.plataforma = plataforma;
+    public void setLoja(Loja loja) {
+        this.loja = loja;
     }
 
     public Desenvolvedora getDesenvolvedora() {
