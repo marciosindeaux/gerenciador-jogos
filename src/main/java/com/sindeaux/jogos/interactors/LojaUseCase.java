@@ -24,8 +24,12 @@ public class LojaUseCase {
     }
 
     public Loja editarLoja(Integer id, Loja dados ){
-        Loja loja = lojaRepository.findById(id).orElseThrow(() -> new RuntimeException("Loja não encontrada no sistema"));
+        Loja loja = this.buscarPorId(id);
         loja.setNome(dados.getNome());
         return lojaRepository.save(loja);
+    }
+
+    public Loja buscarPorId(Integer id) {
+        return lojaRepository.findById(id).orElseThrow(() -> new RuntimeException("Loja não encontrada no sistema"));
     }
 }

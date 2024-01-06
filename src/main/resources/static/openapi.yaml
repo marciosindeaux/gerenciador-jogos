@@ -11,6 +11,14 @@ servers:
     description: Local Server
 components:
   schemas:
+    ResponseJogos:
+      type: object
+      properties:
+        listaJogos:
+          type: array
+          description: lista de jogos ja cadastrados
+          items:
+            $ref: '#/components/schemas/JogoCadastro'
     JogoCadastro:
       type: object
       properties:
@@ -21,9 +29,6 @@ components:
           maxLength: 100
           type: string
         dataLancamento:
-          type: string
-          format: date
-        dataInicio:
           type: string
           format: date
         dataConclusao:
@@ -221,3 +226,35 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/DesenvolvedoraCadastro'
+  /jogo:
+    post:
+      operationId: cadastrarJogo
+      summary: Cadastro de jogo
+      description: Endpoint de cadastro de jogo
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/JogoCadastro'
+      responses:
+        default:
+          description: Ocorreu um erro, tente novamente mais tarde
+        '500':
+          description: Ocorreu um erro ao realizar o cadastro da loja na base de dados
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericError'
+    get:
+      operationId: buscarJogos
+      summary: Buscar jogos
+      description: End-point para buscar todos os jogos cadastrados
+      responses:
+        default:
+          description: Ocorreu um erro, tente novamente mais tarde
+        '200':
+          description: Busca bem sucedida
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseJogos'

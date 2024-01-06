@@ -20,9 +20,13 @@ public class DesenvolvedorUseCase {
     }
 
     public Desenvolvedora editarDesenvolvedora(Integer id , Desenvolvedora dados){
-        Desenvolvedora desenvolvedora = desenvolvedorRepository.findById(id).orElseThrow(() -> new RuntimeException("Loja não encontrada no sistema"));
+        Desenvolvedora desenvolvedora = this.buscarPorId(id);
         desenvolvedora.setNome(dados.getNome());
         return desenvolvedorRepository.save(desenvolvedora);
+    }
+
+    public Desenvolvedora buscarPorId(Integer id) {
+        return desenvolvedorRepository.findById(id).orElseThrow(() -> new RuntimeException("Loja não encontrada no sistema"));
     }
 
     public void cadastrarDesenvolvedor(Desenvolvedora desenvolvedora){

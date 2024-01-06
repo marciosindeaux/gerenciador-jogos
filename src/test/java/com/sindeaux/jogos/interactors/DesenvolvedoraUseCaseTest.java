@@ -1,8 +1,9 @@
 package com.sindeaux.jogos.interactors;
 
-import com.sindeaux.jogos.builders.DesenvolvedoraCadastroBuilder;
 import com.sindeaux.jogos.controller.openapi.model.DesenvolvedoraCadastro;
 import com.sindeaux.jogos.entities.Desenvolvedora;
+import com.sindeaux.jogos.fixture.DesenvolvedoraCadastroFixture;
+import com.sindeaux.jogos.fixture.DesenvolvedoraFixture;
 import com.sindeaux.jogos.repositories.DesenvolvedorRepository;
 import com.sindeaux.jogos.transportlayers.mappers.DesenvolvedorCadastroMapper;
 import org.junit.jupiter.api.Assertions;
@@ -31,11 +32,7 @@ public class DesenvolvedoraUseCaseTest {
 
     @Test
     void deveCadastrarDesenvolvedora() {
-        DesenvolvedoraCadastro desenvolvedora = DesenvolvedoraCadastroBuilder.with()
-                .id(null)
-                .nome("Insomniac")
-                .build();
-        Desenvolvedora loja = DesenvolvedorCadastroMapper.desenvolvedoraCadastroTo(desenvolvedora);
+        Desenvolvedora loja = DesenvolvedoraFixture.getSample("3D Realms");
         Mockito.when(desenvolvedorRepository.save(Mockito.any(Desenvolvedora.class))).thenReturn(null);
 
         desenvolvedoraUseCase.cadastrarDesenvolvedor(loja);
@@ -44,11 +41,7 @@ public class DesenvolvedoraUseCaseTest {
 
     @Test
     void deveBuscarDesenvolvedoras() {
-        DesenvolvedoraCadastro desenvolvedoraCadastro = DesenvolvedoraCadastroBuilder.with()
-                .id(null)
-                .nome("Insomniac")
-                .build();
-        Desenvolvedora desenvolvedora = DesenvolvedorCadastroMapper.desenvolvedoraCadastroTo(desenvolvedoraCadastro);
+        Desenvolvedora desenvolvedora = DesenvolvedoraFixture.getSample("Insomniac");
 
         Mockito.when(desenvolvedorRepository.findAll()).thenReturn(Arrays.asList(desenvolvedora));
 
@@ -56,7 +49,7 @@ public class DesenvolvedoraUseCaseTest {
         Mockito.verify(desenvolvedorRepository, Mockito.times(1)).findAll();
         Assertions.assertNotNull(desenvolvedoras);
         Assertions.assertFalse(desenvolvedoras.isEmpty());
-        Assertions.assertEquals(desenvolvedoraCadastro.getNome(),desenvolvedoras.get(0).getNome());
+        Assertions.assertEquals(desenvolvedora.getNome(),desenvolvedoras.get(0).getNome());
     }
 
     @Test
@@ -73,15 +66,8 @@ public class DesenvolvedoraUseCaseTest {
 
     @Test
     void deveEditar(){
-        DesenvolvedoraCadastro desenvolvedoraCadastro = DesenvolvedoraCadastroBuilder.with()
-                .id(null)
-                .nome("Insomniac")
-                .build();
-        Desenvolvedora desenvolvedora = DesenvolvedorCadastroMapper.desenvolvedoraCadastroTo(desenvolvedoraCadastro);
-
-
-        desenvolvedoraCadastro.setNome("Epic Games");
-        Desenvolvedora dev2 = DesenvolvedorCadastroMapper.desenvolvedoraCadastroTo(desenvolvedoraCadastro);
+        Desenvolvedora desenvolvedora = DesenvolvedoraFixture.getSample(1, "Playstation PPL");
+        Desenvolvedora dev2 = DesenvolvedoraFixture.getSample("Epic Games");
 
         Mockito.when(desenvolvedorRepository.findById(Mockito.any(Integer.class))).thenReturn(Optional.of(desenvolvedora));
         Mockito.when(desenvolvedorRepository.save(Mockito.any(Desenvolvedora.class))).thenReturn(desenvolvedora);

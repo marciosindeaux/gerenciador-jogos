@@ -11,7 +11,7 @@ public class Jogo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID_JOGO")
-    private Long id;
+    private Integer id;
     @Column(name = "NOME_JOGO")
     private String nome;
     @Column(name = "DT_LANCAMENTO_JOGO")
@@ -41,11 +41,11 @@ public class Jogo {
         this.dataInicio = dataInicio;
     }
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

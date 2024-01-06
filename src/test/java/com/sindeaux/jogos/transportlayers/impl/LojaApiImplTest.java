@@ -1,9 +1,9 @@
 package com.sindeaux.jogos.transportlayers.impl;
 
-import com.sindeaux.jogos.builders.LojaCadastroBuilder;
 import com.sindeaux.jogos.controller.openapi.model.LojaCadastro;
 import com.sindeaux.jogos.controller.openapi.model.ResponseLojas;
 import com.sindeaux.jogos.entities.Loja;
+import com.sindeaux.jogos.fixture.LojaCadastroFixture;
 import com.sindeaux.jogos.interactors.LojaUseCase;
 import com.sindeaux.jogos.transportlayers.mappers.LojaCadastroMapper;
 import org.junit.jupiter.api.Assertions;
@@ -29,10 +29,7 @@ public class LojaApiImplTest {
 
     @Test
     void deveCadastrarLoja(){
-        LojaCadastro lojaNova = LojaCadastroBuilder.with()
-                .id(1)
-                .nome("Steam")
-                .build();
+        LojaCadastro lojaNova = LojaCadastroFixture.getSample(1,"Steam");
 
         Mockito.doNothing()
                 .when(lojaUseCase)
@@ -46,10 +43,7 @@ public class LojaApiImplTest {
 
     @Test
     void deveBuscarTodasLojas() {
-        LojaCadastro lojaNova = LojaCadastroBuilder.with()
-                .id(1)
-                .nome("Steam")
-                .build();
+        LojaCadastro lojaNova = LojaCadastroFixture.getSample(1,"Steam");
 
         Mockito.when(lojaUseCase.buscarLojass())
                 .thenReturn(Arrays.asList(LojaCadastroMapper.lojaCadastroTo(lojaNova)));

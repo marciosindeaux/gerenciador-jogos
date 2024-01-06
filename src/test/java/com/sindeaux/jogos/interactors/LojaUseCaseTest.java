@@ -1,8 +1,9 @@
 package com.sindeaux.jogos.interactors;
 
-import com.sindeaux.jogos.builders.LojaCadastroBuilder;
 import com.sindeaux.jogos.controller.openapi.model.LojaCadastro;
 import com.sindeaux.jogos.entities.Loja;
+import com.sindeaux.jogos.fixture.LojaCadastroFixture;
+import com.sindeaux.jogos.fixture.LojaFixture;
 import com.sindeaux.jogos.repositories.LojaRepository;
 import com.sindeaux.jogos.transportlayers.mappers.LojaCadastroMapper;
 import org.junit.jupiter.api.Assertions;
@@ -31,11 +32,7 @@ public class LojaUseCaseTest {
 
     @Test
     void deveCadastrarLojaDeJogo() {
-        LojaCadastro lojaNova = LojaCadastroBuilder.with()
-                .id(null)
-                .nome("Steam")
-                .build();
-        Loja loja = LojaCadastroMapper.lojaCadastroTo(lojaNova);
+        Loja loja = LojaFixture.getSample("Steam");
         Mockito.when(lojaRepository.save(Mockito.any(Loja.class))).thenReturn(null);
 
         lojaUseCase.cadastrarLoja(loja);
@@ -44,11 +41,7 @@ public class LojaUseCaseTest {
 
     @Test
     void deveBuscarLojas() {
-        LojaCadastro lojaNova = LojaCadastroBuilder.with()
-                .id(null)
-                .nome("Steam")
-                .build();
-        Loja loja = LojaCadastroMapper.lojaCadastroTo(lojaNova);
+        Loja loja = LojaFixture.getSample("Steam");
 
         Mockito.when(lojaRepository.findAll()).thenReturn(Arrays.asList(loja));
 
@@ -56,7 +49,7 @@ public class LojaUseCaseTest {
         Mockito.verify(lojaRepository, Mockito.times(1)).findAll();
         Assertions.assertNotNull(lojas);
         Assertions.assertFalse(lojas.isEmpty());
-        Assertions.assertEquals(lojaNova.getNome(),lojas.get(0).getNome());
+        Assertions.assertEquals(loja.getNome(),lojas.get(0).getNome());
     }
 
     @Test
@@ -73,21 +66,15 @@ public class LojaUseCaseTest {
 
     @Test
     void deveEditar(){
-        LojaCadastro lojaNova = LojaCadastroBuilder.with()
-                .id(1)
-                .nome("Steam")
-                .build();
-        Loja loja = LojaCadastroMapper.lojaCadastroTo(lojaNova);
-
-        lojaNova.setNome("Epic Games");
-        Loja loja2 = LojaCadastroMapper.lojaCadastroTo(lojaNova);
+        Loja loja = LojaFixture.getSample(1,"Steam");
+        Loja loja2 = LojaFixture.getSample("Epic Games");
 
         Mockito.when(lojaRepository.findById(Mockito.any(Integer.class))).thenReturn(Optional.of(loja));
         Mockito.when(lojaRepository.save(Mockito.any(Loja.class))).thenReturn(loja);
         Loja lojaResp = lojaUseCase.editarLoja(1, loja2);
 
         Assertions.assertNotNull(lojaResp);
-        Assertions.assertEquals(lojaNova.getId(), lojaResp.getId());
+        Assertions.assertEquals(loja.getId(), lojaResp.getId());
         Assertions.assertEquals(loja2.getNome(), lojaResp.getNome());
 
     }
